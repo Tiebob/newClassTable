@@ -15,6 +15,11 @@ if (isset($_POST["schoolid"])) {
 	$schno = str_replace(' ', ',', $schno);
 	$schno = str_replace('/', ',', $schno);
 
+    if( mb_strpos( $schno, '國中') > 0 or mb_strpos( $schno, '國小') >0 or mb_strpos( $schno, '國中小') >0 ){
+        $school_info = get_school_info_by_name($schno);
+        header( 'location:index.php?schoolid=' . $school_info[ 0 ]->id );
+    }
+
 	if (count($ar_schno = explode(',', $schno)) == 1 and substr( $schno, 0, 3) != '014') {
         if( isChi( $ar_schno[0])){
             $seltype = 'tea';
@@ -84,6 +89,9 @@ if (isset($_POST["schoolid"])) {
 	$clsno = $_GET["clsno"];
 	$url = sprintf("https://esa.ntpc.edu.tw/jsp/lsnmgt_new/pub/index.jsp?schno=%s&seltype=cls&year=%s&clsno=%s", $schno,
 		$year, $clsno);
+}else{
+    $schno = $_GET['schoolid'];
+    $url = sprintf("https://esa.ntpc.edu.tw/jsp/lsnmgt_new/pub/index.jsp?schno=%s", $schno);
 }
 
 $_SESSION["schoolid"] = $schno;
@@ -460,10 +468,62 @@ function array2table($array, $caption, $recursive = false, $null = '&nbsp;') {
 	return $table;
 }
 
+/**
+ * 判斷是否有中文
+ *
+ * @param $str
+ * @return int
+ */
 function isChi($str) {
 	return preg_match('/[一-龜]/is', $str);
 }
 
+/**
+ * echo 函數變化版
+ * @param $s
+ */
 function echobr($s) {
 	print "$s <br />";
+}
+
+
+
+/**
+ * 由學校代號取得學校資訊
+ *
+ * @param string $id
+ * @param string $return_type
+ * @return mixed|null
+ */
+function get_school_info_by_id($id='', $return_type = 'json'){
+    if( $id == "" ) return null;
+
+    $query_url = 'http://data.ntpc.gov.tw/od/data/api/365714DB-5840-46E6-AD3F-CD5BF6460D20?$format=json';
+
+    $query_url .= '&$filter=' . rawurlencode(sprintf( 'id eq %s', $id));
+
+    $JSON = json_decode(file_get_contents( $query_url ));
+
+    return $JSON;
+
+}
+
+/**
+ * 由學校名稱取得學校資訊
+ *
+ * @param string $name
+ * @param string $return_type
+ * @return mixed|null
+ */
+function get_school_info_by_name($name='', $return_type = 'json'){
+    if( $name == "" ) return null;
+
+    $query_url = 'http://data.ntpc.gov.tw/od/data/api/365714DB-5840-46E6-AD3F-CD5BF6460D20?$format=json';
+
+    $query_url .= '&$filter=' . rawurlencode(sprintf( 'alias eq %s', $name));
+
+    $JSON = json_decode(file_get_contents( $query_url ));
+
+    return $JSON;
+
 }
