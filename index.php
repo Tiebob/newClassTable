@@ -183,7 +183,7 @@ $_SESSION["schoolid"] = $schno;
 <body>
     <div class="queryForm">
         <form method="POST">
-            學校代碼：<input id="schoolid" name="schoolid" type="text" placeholder="目前學校代碼：<?=$_SESSION["schoolid"]?>" autofocus />
+            學校代碼：<input id="schoolid" name="schoolid" type="text" placeholder="目前學校名稱或代碼：<?=$_SESSION["schoolid"]?>" autofocus />
         </form>
     </div>
 </body>
