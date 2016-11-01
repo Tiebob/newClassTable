@@ -41,6 +41,9 @@
 
 <ul>
     <li>
+        <div class="information">2016/10/30: 新增輸入學校名稱(ex:淡水國小)也可以查詢</div>
+    </li>
+    <li>
         <div class="information">2016/10/28: 修正學校代號無法一直記憶的問題</div>
     </li>
     <li>

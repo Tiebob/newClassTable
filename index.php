@@ -89,7 +89,7 @@ if (isset($_POST["schoolid"])) {
 	$clsno = $_GET["clsno"];
 	$url = sprintf("https://esa.ntpc.edu.tw/jsp/lsnmgt_new/pub/index.jsp?schno=%s&seltype=cls&year=%s&clsno=%s", $schno,
 		$year, $clsno);
-}else{
+}elseif( isset($_GET["schoolid"]) ){
     $schno = $_GET['schoolid'];
     $url = sprintf("https://esa.ntpc.edu.tw/jsp/lsnmgt_new/pub/index.jsp?schno=%s", $schno);
 }
@@ -147,7 +147,7 @@ $_SESSION["schoolid"] = $schno;
         .queryForm input[type=text]{
             padding-left: 0.3em;
             padding-right: 0.3em;
-            width: 200px;
+            width: 250px;
         }
         .header p{
             text-align: right;
@@ -212,7 +212,7 @@ print array2table(getTable($class_table, $teachers), $classtable_name);
 // end
 ?>
 <div class="container footer">
-    <a href="changes.php" title="修訂記事">修訂記事</a>
+    <a href="changes.php" title="修訂記事">修訂記事(last modified: 2016/10/31)</a>
 </div>
 
 <?php
