@@ -1,4 +1,14 @@
 <?php
+
+declare(strict_types=1);
+
 namespace PHPHtmlParser\Exceptions;
 
-final class UnknownChildTypeException extends \Exception {}
+use Exception;
+
+/**
+ * Class UnknownChildTypeException.
+ */
+final class UnknownChildTypeException extends Exception
+{
+}
