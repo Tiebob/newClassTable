@@ -423,11 +423,11 @@ function convertDigit($str)
 function getChineseDigit($s, $prefix = "")
 {
     $ret = "";
-    $len = mb_strlen($s);
     $class_num = '';
     if (is_numeric($s)) {
         return zero($s, 2);
     }
+    $len = mb_strlen($s);
 
     $numstringalpha = '0123456789';
     $numstringchinese1 = '○一二三四五六七八九十';
@@ -443,7 +443,7 @@ function getChineseDigit($s, $prefix = "")
         $numstringchinese = $numstringchinese1;
     }
 
-    if ($len = 1) {
+    if ($len == 1) {
         $c = $s;
         if ($s === '十') {
             $class_num = '10';
@@ -457,8 +457,9 @@ function getChineseDigit($s, $prefix = "")
             //     }
             //     $ret .= mb_substr($numstringalpha, mb_strpos($numstringchinese, $c), 1);
             // }
+            //echobr("class_num: $class_num");
         }
-    } elseif ($len = 2) {
+    } elseif ($len == 2) {
         $ret = '1';
         $c = mb_substr($s, $len - 1, 1);
         $class_num = mb_substr($numstringalpha, mb_strpos($numstringchinese, $c), 1);
@@ -466,7 +467,10 @@ function getChineseDigit($s, $prefix = "")
 
     if (mb_strlen($class_num) == 1) {
         $ret .= $prefix . $class_num;
+    }else{
+        $ret = $class_num;
     }
+
     return $ret;
 }
 
